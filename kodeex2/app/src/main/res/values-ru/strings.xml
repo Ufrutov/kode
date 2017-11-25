@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">kodeex2 (ru)</string>
+    <string name="hint">Подпись к фото</string>
+    <string name="comon">Поехали!</string>
+    <string name="error">Где описание фото?</string>
+    <string name="btn_back">Назад</string>
+</resources>
