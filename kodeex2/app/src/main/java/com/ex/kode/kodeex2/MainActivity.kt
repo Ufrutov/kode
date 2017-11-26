@@ -22,7 +22,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         var caption_input: EditText = findViewById(R.id.img_caption)
-        caption_input.setText("")
 
         // Button handler
         var startBtn: Button = findViewById(R.id.img_proceed)
@@ -63,5 +62,12 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         } else
             Toast.makeText(applicationContext, "Camera response error", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        var caption_input: EditText = findViewById(R.id.img_caption)
+        caption_input.setText("")
     }
 }
