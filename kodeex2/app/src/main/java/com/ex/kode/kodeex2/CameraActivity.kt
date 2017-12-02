@@ -33,10 +33,18 @@ class CameraActivity : AppCompatActivity() {
 
         photo_view = findViewById(R.id.img)
 
-        try {
-            var photo = intent.getParcelableExtra<Bitmap>("photo") as Bitmap
+        var mode = intent.getStringExtra("mode")
 
-            photo_view.setImageBitmap(photo)
+        try {
+
+            if( mode == "thumb" ) {
+                var photo = intent.getParcelableExtra<Bitmap>("photo") as Bitmap
+                photo_view.setImageBitmap(photo)
+            } else {
+                var photo = intent.getStringExtra("photo")
+                Toast.makeText(applicationContext, "Large photo success", Toast.LENGTH_SHORT).show()
+            }
+
         } catch(e: IOException) {
             Toast.makeText(applicationContext, "Photo file error", Toast.LENGTH_SHORT).show()
         }

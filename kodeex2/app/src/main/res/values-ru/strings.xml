@@ -5,4 +5,5 @@
     <string name="comon">Поехали!</string>
     <string name="error">Где описание фото?</string>
     <string name="btn_back">Назад</string>
+    <string name="size_check">Большой размер фото</string>
 </resources>

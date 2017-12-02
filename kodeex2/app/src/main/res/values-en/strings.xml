@@ -5,4 +5,5 @@
     <string name="comon">Go on!</string>
     <string name="error">Photo caption is missing</string>
     <string name="btn_back">Back</string>
+    <string name="size_check">Large photo</string>
 </resources>

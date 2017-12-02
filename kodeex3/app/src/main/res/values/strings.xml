@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">Figure.ex</string>
+    <string name="select">Select figure:</string>
+    <string name="calc_check">Calculate properties</string>
+    <string name="circ">Circle</string>
+    <string name="rect">Rectangle</string>
+    <string name="tri">Triangle</string>
+    <string name="proceed">Proceed</string>
+    <string name="draw">Draw</string>
+    <string name="selected">Selected figure:</string>
+    <string name="radius">Radius:</string>
+    <string name="perimeter">Perimeter:</string>
+    <string name="area">Area:</string>
+    <string name="side_1">Side 1:</string>
+    <string name="side_2">Side 2:</string>
+    <string name="side_3">Side 3:</string>
+    <string name="input_error">Input error</string>
+    <string name="tri_error">Triangle sides error</string>
+    <string name="rect_error">Rectangle points error</string>
+    <string name="base_info">Base info:</string>
+    <string name="calc_info">Calculations:</string>
+    <string name="back">Back</string>
+    <string name="point_entry">Points input</string>
+    <string name="point_1">Point 1:</string>
+    <string name="point_2">Point 2:</string>
+
+    <string-array name="figures">
+        <item>Circle</item>
+        <item>Rectangle</item>
+        <item>Triangle</item>
+    </string-array>
+</resources>
