@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="app_name">kodeex2 (en)</string>
-    <string name="hint">Tape image caption</string>
-    <string name="comon">Go on!</string>
-    <string name="error">Photo caption is missing</string>
-    <string name="btn_back">Back</string>
-    <string name="size_check">Large photo</string>
-</resources>
