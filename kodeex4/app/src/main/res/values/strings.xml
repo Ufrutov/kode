@@ -1,0 +1,53 @@
+<resources>
+    <string name="app_name">kodeex4</string>
+    <string name="app_tilte">KODE Planets</string>
+    <string name="url_error">Planet URL error</string>
+
+    <string-array name="planet_names">
+        <item>mercury</item>
+        <item>venus</item>
+        <item>earth</item>
+        <item>mars</item>
+        <item>jupiter</item>
+        <item>saturn</item>
+        <item>uranus</item>
+        <item>neptune</item>
+        <item>pluto</item>
+    </string-array>
+
+    <string-array name="planet_to_sun">
+        <item>57.9 million km</item>
+        <item>108.2 million km</item>
+        <item>149.6 million km</item>
+        <item>227.9 million km</item>
+        <item>778.3 million km</item>
+        <item>1,427.0 million km</item>
+        <item>2,871.0 million km</item>
+        <item>4,497.1 million km</item>
+        <item>5,913 million km</item>
+    </string-array>
+
+    <string-array name="planet_population">
+        <item>false</item>
+        <item>false</item>
+        <item>true</item>
+        <item>false</item>
+        <item>false</item>
+        <item>false</item>
+        <item>false</item>
+        <item>false</item>
+        <item>false</item>
+    </string-array>
+
+    <string-array name="planet_url">
+        <item>https://en.wikipedia.org/wiki/Mercury_(planet)</item>
+        <item>https://en.wikipedia.org/wiki/Venus</item>
+        <item>https://en.wikipedia.org/wiki/Earth</item>
+        <item>https://en.wikipedia.org/wiki/Mars</item>
+        <item>https://en.wikipedia.org/wiki/Jupiter</item>
+        <item>https://en.wikipedia.org/wiki/Saturn</item>
+        <item>https://en.wikipedia.org/wiki/Uranus</item>
+        <item>https://en.wikipedia.org/wiki/Neptune</item>
+        <item>https://en.wikipedia.org/wiki/Pluto</item>
+    </string-array>
+</resources>
