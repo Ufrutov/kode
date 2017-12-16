@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.ex.kode.kodeex5.MainActivity"
+    tools:showIn="@layout/activity_main"
+    android:background="#ccf9f9f9">
+
+
+    <include
+        android:id="@+id/include"
+        layout="@layout/task_form"
+        android:visibility="gone"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include
+                layout="@layout/caption_active"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/list_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFF"/>
+
+            <include
+                layout="@layout/caption_done" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/list_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFF"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/note"
+                android:textSize="14dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="20dp"/>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
