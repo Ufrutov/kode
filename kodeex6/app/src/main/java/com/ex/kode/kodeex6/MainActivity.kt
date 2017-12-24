@@ -44,17 +44,17 @@ class MainActivity : AppCompatActivity(), ListViewHolder.Callbacks {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        pictures_files = AdapterHelper.getImages(picutres_root)
+        pictures_files = AdapterHelper.getImages(picutres_root, null)
         list = list_pictures
         list.layoutManager = GridLayoutManager(applicationContext, 3)
         list.adapter = ListAdapter(pictures_files, applicationContext)
 
-        dcim_files = AdapterHelper.getImages(dcim_root)
+        dcim_files = AdapterHelper.getImages(dcim_root, null)
         list_2 = list_dcim
         list_2.layoutManager = GridLayoutManager(applicationContext, 3)
         list_2.adapter = ListAdapter(dcim_files, applicationContext)
 
-        download_files = AdapterHelper.getImages(download_root)
+        download_files = AdapterHelper.getImages(download_root, null)
         list_3 = list_download
         list_3.layoutManager = GridLayoutManager(applicationContext, 3)
         list_3.adapter = ListAdapter(download_files, applicationContext)
@@ -86,8 +86,12 @@ class MainActivity : AppCompatActivity(), ListViewHolder.Callbacks {
         if( item.itemId == R.id.action_load )
             openLoadURL()
 
+        if( item.itemId == R.id.action_search )
+            openSearch()
+
         return when (item.itemId) {
             R.id.action_load -> true
+            R.id.action_search -> true
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -176,6 +180,11 @@ class MainActivity : AppCompatActivity(), ListViewHolder.Callbacks {
         startActivity(intent)
     }
 
+    fun openSearch() {
+        var intent = Intent(applicationContext, SearchActivity::class.java)
+        startActivity(intent)
+    }
+
     fun handleBars() {
         var pictures_bar: ConstraintLayout = findViewById(R.id.list_caption_pictures)
         pictures_bar.setOnClickListener(View.OnClickListener {
@@ -261,17 +270,17 @@ class MainActivity : AppCompatActivity(), ListViewHolder.Callbacks {
 
     fun updateLists() {
         if( list.visibility == View.VISIBLE ) {
-            pictures_files = AdapterHelper.getImages(picutres_root)
+            pictures_files = AdapterHelper.getImages(picutres_root, null)
             list.adapter.notifyDataSetChanged()
         }
 
         if( list_2.visibility == View.VISIBLE ) {
-            dcim_files = AdapterHelper.getImages(dcim_root)
+            dcim_files = AdapterHelper.getImages(dcim_root, null)
             list_2.adapter.notifyDataSetChanged()
         }
 
         if( list_3.visibility == View.VISIBLE ) {
-            download_files = AdapterHelper.getImages(download_root)
+            download_files = AdapterHelper.getImages(download_root, null)
             list_3.adapter.notifyDataSetChanged()
         }
 

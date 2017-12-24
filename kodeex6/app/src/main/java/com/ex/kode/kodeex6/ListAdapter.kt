@@ -69,9 +69,9 @@ class ListViewHolder(var view: View): RecyclerView.ViewHolder(view) {
 
 class AdapterHelper() {
     companion object {
-        fun getImages(root: File): Array<ImageObj> {
+        fun getImages(root: File, search: String?): Array<ImageObj> {
             var files_array: ArrayList<File> = ArrayList<File>()
-            getFiles(root, files_array)
+            getFiles(root, search, files_array)
 
             if( files_array.size > 0 ) {
                 return Array(files_array.size, { i ->
@@ -87,13 +87,18 @@ class AdapterHelper() {
             }
         }
 
-        fun getFiles(file: File, files: ArrayList<File>) {
+        fun getFiles(file: File, search: String?, files: ArrayList<File>) {
             for (f:File in file.listFiles()) {
                 if( f.isDirectory ) {
-                    getFiles(f, files)
+                    getFiles(f, search, files)
                 } else {
-                    if( ImageObj.checkFile(f.absolutePath) )
-                        files.add(f)
+                    if( ImageObj.checkFile(f.absolutePath) ) {
+                        if( search != null ) {
+                            if( file.name.indexOf(search) != -1 )
+                                files.add(f)
+                        } else
+                            files.add(f)
+                    }
                 }
             }
         }

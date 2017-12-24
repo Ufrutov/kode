@@ -22,4 +22,8 @@
     <string name="file_ext_error">Wrong file format</string>
     <string name="note">Long press on image to enter multiple edit mode\n
     Press on image name to rename it</string>
+    <string name="search">Search</string>
+    <string name="search_results">Search results</string>
+    <string name="search_found">Found %s files</string>
+    <string name="search_nothing">Nothing was found</string>
 </resources>
