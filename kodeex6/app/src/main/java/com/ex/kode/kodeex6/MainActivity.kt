@@ -1,13 +1,11 @@
 package com.ex.kode.kodeex6
 
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.support.annotation.RequiresApi
 import android.support.constraint.ConstraintLayout
-import android.support.design.widget.Snackbar
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
@@ -17,15 +15,12 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
-import com.ex.kode.kodeex6.R.layout.list_caption_pictures
 
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.list_caption_dcim.*
 import kotlinx.android.synthetic.main.list_caption_download.*
 import kotlinx.android.synthetic.main.list_caption_pictures.*
-import java.io.File
-import java.util.*
 
 class MainActivity : AppCompatActivity(), ListViewHolder.Callbacks {
 
@@ -73,6 +68,11 @@ class MainActivity : AppCompatActivity(), ListViewHolder.Callbacks {
         del.setOnClickListener { _ -> deleteIems() }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        Toast.makeText(applicationContext, "onActivityResult", Toast.LENGTH_SHORT).show()
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
@@ -83,8 +83,11 @@ class MainActivity : AppCompatActivity(), ListViewHolder.Callbacks {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+        if( item.itemId == R.id.action_load )
+            openLoadURL()
+
         return when (item.itemId) {
-            R.id.action_settings -> true
+            R.id.action_load -> true
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -165,6 +168,11 @@ class MainActivity : AppCompatActivity(), ListViewHolder.Callbacks {
 
     fun openCamera() {
         var intent = Intent("android.media.action.IMAGE_CAPTURE")
+        startActivity(intent)
+    }
+
+    fun openLoadURL() {
+        var intent = Intent(applicationContext, LoadActivity::class.java)
         startActivity(intent)
     }
 
@@ -252,16 +260,20 @@ class MainActivity : AppCompatActivity(), ListViewHolder.Callbacks {
     }
 
     fun updateLists() {
-        pictures_files = AdapterHelper.getImages(picutres_root)
-        dcim_files = AdapterHelper.getImages(dcim_root)
-        download_files = AdapterHelper.getImages(download_root)
-
-        if( list.visibility == View.VISIBLE )
+        if( list.visibility == View.VISIBLE ) {
+            pictures_files = AdapterHelper.getImages(picutres_root)
             list.adapter.notifyDataSetChanged()
-        if( list_2.visibility == View.VISIBLE )
+        }
+
+        if( list_2.visibility == View.VISIBLE ) {
+            dcim_files = AdapterHelper.getImages(dcim_root)
             list_2.adapter.notifyDataSetChanged()
-        if( list_3.visibility == View.VISIBLE )
+        }
+
+        if( list_3.visibility == View.VISIBLE ) {
+            download_files = AdapterHelper.getImages(download_root)
             list_3.adapter.notifyDataSetChanged()
+        }
 
         updateBars()
     }

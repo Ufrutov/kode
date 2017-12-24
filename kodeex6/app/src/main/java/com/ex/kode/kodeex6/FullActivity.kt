@@ -20,6 +20,8 @@ class FullActivity : AppCompatActivity() {
     lateinit var imagePath: String
     lateinit var imageName: String
 
+    var rename: Boolean = false
+
     private val mHideHandler = Handler()
     private val mHidePart2Runnable = Runnable {
         // Delayed removal of status and navigation bar
@@ -153,8 +155,10 @@ class FullActivity : AppCompatActivity() {
         if( new_name.length > 0 ) {
             if( ImageObj.checkFile(new_name) ) {
                 if( imageName != new_name ) {
-                    if( ImageObj.renameFile(imagePath, imageName, new_name) )
-                        edit.setText(new_name)
+                    if( ImageObj.renameFile(imagePath, imageName, new_name) ) {
+                        fullscreen_image_name.text = new_name
+                        rename = true
+                    }
                 }
             } else
                 Toast.makeText(applicationContext, resources.getString(R.string.file_ext_error), Toast.LENGTH_SHORT).show()

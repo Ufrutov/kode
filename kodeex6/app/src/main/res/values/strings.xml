@@ -2,6 +2,11 @@
     <string name="app_name">kodeex6</string>
     <string name="app_title">KODE Gallery</string>
     <string name="action_settings">Settings</string>
+    <string name="load_by_url">Load by URL</string>
+    <string name="btn_load">Load image</string>
+    <string name="url_error">URL is too short</string>
+    <string name="url_exist">URL already was loaded</string>
+    <string name="start_download">Start image download</string>
     <string name="list_caption_pictures">Pictures</string>
     <string name="list_caption_dcim">DCIM</string>
     <string name="list_caption_download">Downloads</string>
