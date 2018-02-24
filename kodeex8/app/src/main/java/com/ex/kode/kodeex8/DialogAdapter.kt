@@ -11,11 +11,11 @@ import com.vk.sdk.api.model.VKApiMessage
 import com.vk.sdk.api.model.VKList
 import kotlinx.android.synthetic.main.dialog_list_item.view.*
 
-class DialogAdapter(var data: VKList<VKApiDialog>, val itemListener: ItemClickListener):
+class DialogAdapter(var data: ArrayList<VKDialog>, val itemListener: ItemClickListener):
         RecyclerView.Adapter<DialogAdapter.ViewHolder>() {
 
     interface ItemClickListener {
-        fun onListItemClick(item: VKApiDialog)
+        fun onListItemClick(item: VKDialog)
     }
 
     companion object {
@@ -26,20 +26,17 @@ class DialogAdapter(var data: VKList<VKApiDialog>, val itemListener: ItemClickLi
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         adapterClickListener = itemListener
-        val entry: VKApiDialog = data[position]
+        val entry: VKDialog = data[position]
 
-        holder.user.text = entry.message.user_id.toString()
-        holder.date.text = entry.message.date.toString()
-        holder.body.text = entry.message.body
+        holder.user.text = entry.getName()
+        holder.date.text = VKDialog.getTs(entry.ts)
+        holder.body.text = entry.body
 
 //        entry.unread
 
         holder.itemView.setOnClickListener(View.OnClickListener {
-            Log.d("VKSdk", "View.OnClickListener")
-            if (adapterClickListener != null) {
+            if (adapterClickListener != null)
                 adapterClickListener?.onListItemClick(entry)
-
-            }
         })
     }
 

@@ -17,6 +17,8 @@ import com.vk.sdk.api.model.VKApiGetDialogResponse
 import com.vk.sdk.api.model.VKApiGetMessagesResponse
 import com.vk.sdk.api.model.VKList
 import kotlinx.android.synthetic.main.fragment_blank.*
+import org.json.JSONArray
+import org.json.JSONObject
 
 class MainActivity : AppCompatActivity(), MessageView.Callback {
 
@@ -28,19 +30,6 @@ class MainActivity : AppCompatActivity(), MessageView.Callback {
     }
 
     var dialog_id: Int = 0
-
-//    override fun OnClick(s: String) {
-//        if (resources.configuration.orientation
-//                == Configuration.ORIENTATION_LANDSCAPE) {
-//            supportFragmentManager.beginTransaction()
-//                    .add(R.id.frame, MessageView())
-//                    .commit()
-//        } else {
-//            var intent = Intent(this, MessageActivity::class.java)
-//            intent.putExtra("string", s)
-//            startActivity(intent)
-//        }
-//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,9 +64,10 @@ class MainActivity : AppCompatActivity(), MessageView.Callback {
             override fun onComplete(response: VKResponse?) {
                 super.onComplete(response)
 
-                val VKdialogs = (response!!.parsedModel as VKApiGetDialogResponse).items
+                val vkDialogs = (response!!.parsedModel as VKApiGetDialogResponse).items
+                val users: Array<String> = Array(vkDialogs.size, { i -> vkDialogs[i].message.user_id.toString() })
 
-                updateDialogList(VKdialogs)
+                completeDialogs(users, vkDialogs)
             }
 
             override fun onError(error: VKError?) {
@@ -94,20 +84,66 @@ class MainActivity : AppCompatActivity(), MessageView.Callback {
         dialogs.executeWithListener(listener)
     }
 
-    fun updateDialogList(data: VKList<VKApiDialog>) {
+    fun updateDialogList(data: ArrayList<VKDialog>) {
         if( dialogAdapter == null ) {
             dialogAdapter = DialogAdapter(data,
                 object: DialogAdapter.ItemClickListener {
-                    override fun onListItemClick(item: VKApiDialog) {
-                        Log.d("VKSdk", "onListItemClick: %s".format(item.id))
+                    override fun onListItemClick(item: VKDialog) {
                         openDialogActivity(item)
                     }
+
             })
             dialogs.adapter = dialogAdapter
         } else {
             dialogAdapter?.data = data
             dialogAdapter?.notifyDataSetChanged()
         }
+    }
+
+    fun completeDialogs(ids: Array<String>, dialogs: VKList<VKApiDialog>) {
+        // Get user names by id from dialogs
+        val users = VKRequest("users.get", VKParameters.from(VKApiConst.USER_IDS, ids.joinToString()))
+        val listener: VKRequest.VKRequestListener = object: VKRequest.VKRequestListener() {
+            override fun onComplete(response: VKResponse?) {
+                super.onComplete(response)
+
+                val ja: JSONArray = JSONObject(response!!.responseString).getJSONArray("response")
+
+                val output = ArrayList<VKDialog>()
+                for( d: VKApiDialog in dialogs ) {
+                    val index: Int = dialogs.indexOf(d)
+                    val obj = ja.getJSONObject(index)
+
+                    if( d.message.user_id == obj.getInt("id") )
+                        output.add(VKDialog(
+                                obj.getInt("id"),
+                                obj.getString("last_name"),
+                                obj.getString("first_name"),
+                                d.message.date,
+                                d.message.body,
+                                ( d.unread != 0 ),
+                                d.message.out                      ))
+                    else
+                        Log.d("VKSdk", "Dialog error: %s".format(obj.getInt("id")))
+                }
+
+                updateDialogList(output)
+
+                Log.d("VKSdk", "Users onComplete: %s".format(output.size))
+            }
+
+            override fun onError(error: VKError?) {
+                super.onError(error)
+                Log.d("VKSdk", "Users onError: %s".format(error.toString()))
+            }
+
+            override fun onProgress(progressType: VKRequest.VKProgressType?, bytesLoaded: Long, bytesTotal: Long) {
+                super.onProgress(progressType, bytesLoaded, bytesTotal)
+                Log.d("VKSdk", "Users onProgress: %s".format(progressType.toString()))
+            }
+        }
+
+        users.executeWithListener(listener)
     }
 
     fun getVKMessages(id: Int) {
@@ -120,7 +156,6 @@ class MainActivity : AppCompatActivity(), MessageView.Callback {
                 val messages_response = VKApiGetMessagesResponse(response!!.json)
 
                 Log.d("VKSdk", "History: %s".format(messages_response.count))
-//                val VKdialogs = (response!!.parsedModel as VKApiGetDialogResponse).items
             }
 
             override fun onError(error: VKError?) {
@@ -137,10 +172,10 @@ class MainActivity : AppCompatActivity(), MessageView.Callback {
         history.executeWithListener(listener)
     }
 
-    fun openDialogActivity(dialog: VKApiDialog) {
-        Log.d("VKSdk", "selected dialog: %s".format(dialog.message.toString()))
+    fun openDialogActivity(dialog: VKDialog) {
+        Log.d("VKSdk", "selected dialog: %s (%s)".format(dialog.getName(), dialog.id.toString()))
 
-        dialog_id = dialog.message.user_id
+        dialog_id = dialog.id
 
         if (resources.configuration.orientation
                 == Configuration.ORIENTATION_LANDSCAPE) {
@@ -149,9 +184,9 @@ class MainActivity : AppCompatActivity(), MessageView.Callback {
                     .replace(R.id.fragment_two, MessageView())
                     .commit()
         } else {
-            getVKMessages(dialog.message.user_id)
+            getVKMessages(dialog.id)
             val intent = Intent(applicationContext, MessageActivity::class.java)
-            intent.putExtra("user_id", dialog.message.user_id)
+            intent.putExtra("user_id", dialog.id)
             startActivity(intent)
         }
     }
